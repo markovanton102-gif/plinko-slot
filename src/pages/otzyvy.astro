@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — отзывы игроков"
+  description="Отзывы о игре Plinko: опыт игроков, плюсы и минусы, честность механики."
+>
+  <PageHero
+    title="Отзывы о игре Plinko"
+    lead="Собираем типичные мнения игроков: быстрые раунды, контроль вывода и риск «взрыва» на последней ячейке."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Что хвалят</h2>
+      <ul>
+        <li>Понятные правила без сложных линий выплат</li>
+        <li>Можно играть с телефона в браузере</li>
+        <li>Короткие сессии — удобно для перерыва</li>
+      </ul>
+      <h2>На что жалуются</h2>
+      <ul>
+        <li>Высокий риск при жадности — забирают слишком поздно</li>
+        <li>Нужна дисциплина по банкроллу</li>
+      </ul>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

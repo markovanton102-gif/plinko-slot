@@ -1,0 +1,19 @@
+---
+import { nav, site } from '../config';
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container inner">
+    <a class="logo" href="/">{site.name}</a>
+    <nav class="nav" aria-label="Основное меню">
+      {
+        nav.map((item) => (
+          <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

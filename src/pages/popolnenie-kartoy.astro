@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — пополнение картой"
+  description="Играть в Plinko через карту Visa Mastercard: пополнение и старт игры."
+>
+  <PageHero
+    title="Plinko — пополнение банковской картой"
+    lead="Карта остаётся популярным способом депозита там, где банки не блокируют транзакции в гемблинг."
+  />
+  <article class="content">
+    <div class="container">
+      <p>После пополнения картой найди Plinko в каталоге instant-игр и сделай ставку.</p>
+      <p>Альтернатива: <a href="/popolnenie-usdt/">пополнение USDT</a>.</p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — скачать на Android и iPhone"
+  description="Скачать Plinko на телефон: Android, iPhone, игра в браузере и через приложение казино."
+>
+  <PageHero
+    title="Скачать Plinko на телефон"
+    lead="Чаще Plinko доступна в мобильном браузере или в приложении онлайн-казино — отдельный APK встречается реже."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Android</h2>
+      <p>Открой сайт казино в Chrome — добавь на главный экран или используй официальное приложение оператора.</p>
+      <h2>iPhone (iOS)</h2>
+      <p>В Safari — игра в браузере; в App Store приложения казино зависят от региона.</p>
+      <h2>Компьютер</h2>
+      <p>Достаточно браузера, скачивание клиента обычно не требуется.</p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

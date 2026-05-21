@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Spaceman — аналог Plinko"
+  description="Spaceman — игра вместо Plinko: crash с космонавтом, как играть онлайн."
+>
+  <PageHero title="Spaceman — альтернатива Plinko" lead="Crash-формат: множитель растёт, нужно успеть забрать ставку." />
+  <article class="content">
+    <div class="container">
+      <p><a href="/">← Вернуться к Plinko</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

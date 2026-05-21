@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Где играть в Plinko онлайн"
+  description="Где играть в плинко онлайн: на что смотреть при выборе площадки, лицензия и выплаты."
+>
+  <PageHero
+    title="Где играть в Plinko"
+    lead="Ищи площадки с instant-играми в каталоге, быстрым выводом и поддержкой твоего способа оплаты."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Критерии выбора</h2>
+      <ul>
+        <li>Игра Plinko есть в лобби (Pragmatic Play и др.)</li>
+        <li>Поддержка твоей валюты и гео</li>
+        <li>Удобное пополнение и вывод</li>
+        <li>Мобильная версия без лагов</li>
+      </ul>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — пополнение USDT"
+  description="Играть в Plinko через USDT и криптовалюту: депозит Bitcoin USDT."
+>
+  <PageHero
+    title="Plinko — пополнение USDT"
+    lead="Криптовалюта часто используется там, где карты ограничены. USDT — стабильный вариант без волатильности BTC."
+  />
+  <article class="content">
+    <div class="container">
+      <p>Выбери депозит USDT (TRC-20 / ERC-20 — смотри сеть на площадке), зачисли и открой Plinko.</p>
+      <p><a href="/popolnenie-kartoy/">Пополнение картой</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

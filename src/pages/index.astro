@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+import { site } from '../config';
+---
+
+<BaseLayout
+  title="Плинко — игра в онлайн-казино"
+  description="Plinko: как играть, отзывы, демо и где играть на деньги. Слот плинко в казино онлайн."
+>
+  <PageHero
+    title="Плинко (Plinko) — игра в казино"
+    lead="Plinko — instant-игра: шарик падает по полю и попадает в ячейку с множителем. Разбираем правила и игру на деньги."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Что такое Plinko</h2>
+      <p>
+        Plinko — игра с падающим шариком и множителями внизу поля. Простые раунды, удобно с телефона.
+      </p>
+      <h2>Разделы сайта</h2>
+      <div class="card-grid">
+        <div class="card"><a href="/otzyvy/">Отзывы игроков</a></div>
+        <div class="card"><a href="/kak-igrat/">Как играть и стратегии</a></div>
+        <div class="card"><a href="/skachat/">Скачать на телефон</a></div>
+        <div class="card"><a href="/demo/">Демо-режим</a></div>
+        <div class="card"><a href="/igrat-na-dengi/">Играть на деньги</a></div>
+        <div class="card"><a href="/gde-igrat/">Где играть онлайн</a></div>
+        <div class="card"><a href="/analogi/">Аналоги Plinko</a></div>
+      </div>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

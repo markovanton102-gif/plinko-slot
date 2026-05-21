@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Lucky Jet — аналог Plinko"
+  description="Lucky Jet — альтернатива игре Plinko онлайн."
+>
+  <PageHero title="Lucky Jet — альтернатива Plinko" lead="Похожий instant/crash-формат для смены игры." />
+  <article class="content">
+    <div class="container">
+      <p><a href="/">← Вернуться к Plinko</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

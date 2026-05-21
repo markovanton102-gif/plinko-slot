@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+
+const analogs = [
+  { href: '/analogi/mines/', title: 'Mines', desc: 'Сапёр-стиль, другой тип риска' },
+  { href: '/analogi/lucky-jet/', title: 'Lucky Jet', desc: 'Crash с растущим коэффициентом' },
+  { href: '/analogi/spaceman/', title: 'Spaceman', desc: 'Космический crash' },
+  { href: '/analogi/aviator/', title: 'Aviator', desc: 'Самый известный crash' },
+  { href: '/analogi/pilot/', title: 'Pilot', desc: 'Альтернатива crash-нише' },
+  { href: '/analogi/chicken-rush/', title: 'Chicken Rush', desc: 'Трендовая instant-игра' },
+];
+---
+
+<BaseLayout
+  title="Аналоги Plinko"
+  description="Игры похожие на Plinko: Spaceman, Lucky Jet, Pilot, Aviator и другие instant-слоты."
+>
+  <PageHero
+    title="Аналоги игры Plinko"
+    lead="Если хочешь сменить формат — instant и crash-игры с похожей механикой риска и множителей."
+  />
+  <article class="content">
+    <div class="container">
+      <div class="card-grid">
+        {analogs.map((a) => (
+          <div class="card">
+            <a href={a.href}>{a.title}</a>
+            <p>{a.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+</BaseLayout>

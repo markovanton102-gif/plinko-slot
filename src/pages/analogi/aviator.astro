@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Aviator — аналог Plinko"
+  description="Aviator — игра вместо Plinko, crash с самолётом."
+>
+  <PageHero title="Aviator — альтернатива Plinko" lead="Самый известный crash в нише. Высокая конкуренция в SEO." />
+  <article class="content">
+    <div class="container">
+      <p><a href="/">← Вернуться к Plinko</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

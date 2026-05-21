@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Pilot — аналог Plinko"
+  description="Pilot crash — альтернатива игре Plinko онлайн."
+>
+  <PageHero title="Pilot — альтернатива Plinko" lead="Популярный crash-слот в СНГ, часто ищут как «пилот игра»." />
+  <article class="content">
+    <div class="container">
+      <p><a href="/">← Вернуться к Plinko</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

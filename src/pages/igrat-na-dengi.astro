@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — играть на деньги"
+  description="Играть в Plinko на реальные деньги: регистрация, депозит и старт игры онлайн."
+>
+  <PageHero
+    title="Играть в Plinko на деньги"
+    lead="Чтобы играть на реальные деньги, нужна регистрация на площадке с этой игрой в каталоге и пополнение счёта."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Как начать</h2>
+      <ol>
+        <li>Выбери площадку с Plinko в каталоге instant-игр.</li>
+        <li>Зарегистрируйся (18+).</li>
+        <li>Пополни счёт удобным способом.</li>
+        <li>Найди Plinko в разделе игр и сделай ставку.</li>
+      </ol>
+      <p>
+        Способы пополнения:
+        <a href="/popolnenie-kartoy/">карта</a>,
+        <a href="/popolnenie-usdt/">USDT</a>.
+      </p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

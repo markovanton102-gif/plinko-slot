@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PlayButton from '../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Плинко — как играть и стратегия"
+  description="Как играть в Plinko: правила, тактики, размер поля и когда забирать выигрыш."
+>
+  <PageHero
+    title="Как играть в Plinko"
+    lead="Выбираешь количество мин, открываешь ячейки и фиксируешь выигрыш. Чем больше мин — тем выше риск и множитель."
+  />
+  <article class="content">
+    <div class="container">
+      <h2>Базовые шаги</h2>
+      <ol>
+        <li>Укажи ставку и число мин на поле.</li>
+        <li>Открывай ячейки по одной.</li>
+        <li>Забирай выигрыш до попадания на мину.</li>
+      </ol>
+      <h2>Простые тактики</h2>
+      <ul>
+        <li>Фиксированный лимит ячеек за раунд (например, 3–5)</li>
+        <li>Стоп-лосс на сессию, не отыгрываться</li>
+        <li>Меньше мин на поле — спокойнее, но ниже множители</li>
+      </ul>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

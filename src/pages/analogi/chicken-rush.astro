@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+---
+
+<BaseLayout
+  title="Chicken Rush — аналог Plinko"
+  description="Chicken Rush — instant-игра, альтернатива Plinko."
+>
+  <PageHero title="Chicken Rush — альтернатива Plinko" lead="Трендовая instant-игра с простой механикой." />
+  <article class="content">
+    <div class="container">
+      <p><a href="/">← Вернуться к Plinko</a></p>
+      <p><PlayButton /></p>
+    </div>
+  </article>
+</BaseLayout>

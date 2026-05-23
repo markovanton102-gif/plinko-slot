@@ -1,6 +1,12 @@
 ---
 import { nav, site } from '../config';
+
 const current = Astro.url.pathname;
+
+function isNavActive(href: string): boolean {
+  if (href === '/') return current === '/';
+  return current === href || current.startsWith(href);
+}
 ---
 
 <header class="site-header">
@@ -9,7 +15,7 @@ const current = Astro.url.pathname;
     <nav class="nav" aria-label="Основное меню">
       {
         nav.map((item) => (
-          <a href={item.href} aria-current={current === item.href ? 'page' : undefined}>
+          <a href={item.href} aria-current={isNavActive(item.href) ? 'page' : undefined}>
             {item.label}
           </a>
         ))

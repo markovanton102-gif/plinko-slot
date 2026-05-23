@@ -1,0 +1,65 @@
+---
+import { supabaseUrl, supabaseAnonKey, reviewsEnabled, reviewsSiteSlug } from '../config';
+---
+
+<section
+  class="reviews"
+  id="reviews"
+  aria-labelledby="reviews-title"
+  data-supabase-url={supabaseUrl}
+  data-supabase-key={supabaseAnonKey}
+  data-site-slug={reviewsSiteSlug}
+>
+  <h2 id="reviews-title">Отзывы игроков</h2>
+
+  <form class="review-compose" id="review-compose" novalidate>
+    <div class="review-compose-avatar" id="review-compose-avatar" aria-hidden="true">?</div>
+    <div class="review-compose-main">
+      <label class="sr-only" for="review-author">Имя</label>
+      <input
+        id="review-author"
+        name="author"
+        type="text"
+        placeholder="Ваше имя"
+        required
+        minlength="2"
+        maxlength="40"
+        autocomplete="nickname"
+      />
+      <label class="sr-only" for="review-text">Комментарий</label>
+      <div class="review-compose-text-wrap">
+        <textarea
+          id="review-text"
+          name="body"
+          placeholder="Написать комментарий"
+          required
+          minlength="10"
+          maxlength="2000"
+          rows="3"
+        ></textarea>
+        <button type="submit" class="review-compose-send" aria-label="Отправить">
+          ➤
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <p class="review-status" id="review-status" hidden></p>
+
+  {!reviewsEnabled && (
+    <p class="reviews-hint">
+      Для приёма комментариев с сайта: создайте проект на
+      <a href="https://supabase.com" rel="noopener noreferrer" target="_blank">supabase.com</a>,
+      выполните <code>supabase/schema.sql</code>, добавьте ключи в <code>.env</code>.
+    </p>
+  )}
+
+  <ol class="reviews-list" aria-live="polite"></ol>
+</section>
+
+<script>
+  import { initReviews } from '../scripts/reviews-ui';
+
+  const root = document.getElementById('reviews');
+  if (root) initReviews(root);
+</script>

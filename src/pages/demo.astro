@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import GameDemo from '../components/GameDemo.astro';
 ---
 
 <BaseLayout
@@ -10,13 +11,14 @@ import PlayButton from '../components/PlayButton.astro';
 >
   <PageHero
     title="Plinko — демо-режим"
-    lead="Демо позволяет понять механику без риска. Конверсия в депозит ниже, зато удобно для новичков."
+    lead="Играйте бесплатно прямо на странице. На реальные деньги переходите только с готовым лимитом по банкроллу."
   />
   <article class="content">
     <div class="container">
+      <GameDemo title="Plinko+" />
+
       <p>
-        Если демо доступно на площадке — используй его, чтобы отработать, сколько ячеек открывать за
-        раунд. На реальные деньги переходи только с готовым лимитом по банкроллу.
+        В демо можно понять механику множителей и риск без ставок на реальный баланс.
       </p>
       <p><PlayButton /></p>
     </div>

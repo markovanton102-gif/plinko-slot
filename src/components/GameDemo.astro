@@ -1,0 +1,24 @@
+---
+import { demoGameUrl } from '../config';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Plinko — демо' } = Astro.props;
+---
+
+{
+  demoGameUrl ? (
+    <div class="game-demo">
+      <iframe
+        title={title}
+        src={demoGameUrl}
+        allow="fullscreen"
+        loading="lazy"
+      />
+    </div>
+  ) : (
+    <p class="game-demo-missing">Демо временно недоступно.</p>
+  )
+}

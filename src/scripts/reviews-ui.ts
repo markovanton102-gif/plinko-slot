@@ -157,10 +157,6 @@ export function initReviews(root: HTMLElement) {
     void loadFromDb();
   } else if (form) {
     form.querySelector('button[type="submit"]')?.setAttribute('disabled', 'true');
-    setStatus(
-      'Чтобы принимать отзывы с сайта, подключите Supabase (см. supabase/schema.sql и .env.example).',
-      'info',
-    );
     refreshList();
   } else {
     refreshList();

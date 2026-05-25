@@ -13,10 +13,15 @@ export const demoGameUrl =
 
 export const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL ?? '';
 export const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY ?? '';
-export const reviewsEnabled = Boolean(supabaseUrl && supabaseAnonKey);
 
 /** Идентификатор сайта в общей таблице comments (не смешивать отзывы разных проектов) */
 export const reviewsSiteSlug = 'plinko-slot';
+
+export const whereToPlay = [
+  { name: '1win', url: 'https://1wzpdo.life/v3/1734/landing-plinko?p=p3kt' },
+  { name: 'Vegas Grand', url: 'https://vgs-aff.top/r_b1s3wyA8xKoU' },
+  { name: 'GetX', url: 'https://lvlx.click/tcp9hs8hg' },
+] as const;
 
 export const nav = [
   { href: '/', label: 'Главная' },

@@ -1,5 +1,5 @@
 ---
-import { supabaseUrl, supabaseAnonKey, reviewsEnabled, reviewsSiteSlug } from '../config';
+import { supabaseUrl, supabaseAnonKey, reviewsSiteSlug } from '../config';
 ---
 
 <section
@@ -45,14 +45,6 @@ import { supabaseUrl, supabaseAnonKey, reviewsEnabled, reviewsSiteSlug } from '.
   </form>
 
   <p class="review-status" id="review-status" hidden></p>
-
-  {!reviewsEnabled && (
-    <p class="reviews-hint">
-      Для приёма комментариев с сайта: создайте проект на
-      <a href="https://supabase.com" rel="noopener noreferrer" target="_blank">supabase.com</a>,
-      выполните <code>supabase/schema.sql</code>, добавьте ключи в <code>.env</code>.
-    </p>
-  )}
 
   <ol class="reviews-list" aria-live="polite"></ol>
 </section>

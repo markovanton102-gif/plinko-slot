@@ -1,10 +1,18 @@
 ---
-import { site } from '../config';
+import { footerLinks, site } from '../config';
+
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="container">
+    <nav class="footer-nav" aria-label="Карта сайта">
+      {
+        footerLinks.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))
+      }
+    </nav>
     <p>© {year} {site.name}. Информационный сайт об игре Plinko.</p>
     <p class="disclaimer">
       18+. Азартные игры могут вызывать зависимость. Играйте ответственно. Сайт не является

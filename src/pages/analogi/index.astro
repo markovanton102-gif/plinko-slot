@@ -1,35 +1,114 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import AnalogGrid, { type AnalogSection } from '../../components/AnalogGrid.astro';
 
-const analogs = [
-  { href: '/analogi/mines/', title: 'Mines', desc: 'Сапёр-стиль, другой тип риска' },
-  { href: '/analogi/lucky-jet/', title: 'Lucky Jet', desc: 'Crash с растущим коэффициентом' },
-  { href: '/analogi/spaceman/', title: 'Spaceman', desc: 'Космический crash' },
-  { href: '/analogi/aviator/', title: 'Aviator', desc: 'Самый известный crash' },
-  { href: '/analogi/pilot/', title: 'Pilot', desc: 'Альтернатива crash-нише' },
-  { href: '/analogi/chicken-rush/', title: 'Chicken Rush', desc: 'Трендовая instant-игра' },
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+];
+
+const metaDescription =
+  'Аналоги Plinko (плинко): Lucky Jet, Aviator, Spaceman, Pilot, Mines, Chicken Rush — instant и crash-игры. Сравнение с плинко онлайн.';
+
+const analogSections: AnalogSection[] = [
+  {
+    id: 'analog-crash-heading',
+    heading: 'Crash — растущий множитель',
+    lead: 'Другое оформление, чем у плинко: одна кнопка «забрать» до вылета раунда — как в Aviator и Lucky Jet.',
+    items: [
+      {
+        href: '/analogi/lucky-jet/',
+        title: 'Lucky Jet',
+        tag: 'Crash',
+        icon: '🚀',
+        variant: 'crash',
+        desc: 'Лаки джет: персонаж или ракета, cash out в реальном времени. Популярная альтернатива плинко в СНГ.',
+      },
+      {
+        href: '/analogi/aviator/',
+        title: 'Aviator',
+        tag: 'Crash',
+        icon: '✈️',
+        variant: 'crash',
+        desc: 'Классика жанра — самолёт Spribe. Самый узнаваемый crash в поиске.',
+      },
+      {
+        href: '/analogi/spaceman/',
+        title: 'Spaceman',
+        tag: 'Crash',
+        icon: '🛸',
+        variant: 'crash',
+        desc: 'Космонавт и множитель от Pragmatic Play. Та же логика, космический визуал.',
+      },
+      {
+        href: '/analogi/pilot/',
+        title: 'Pilot',
+        tag: 'Crash',
+        icon: '🛩️',
+        variant: 'crash',
+        desc: 'Crash «пилот» — частый запрос в СНГ. Короткие раунды и кнопка вывода.',
+      },
+    ],
+  },
+  {
+    id: 'analog-instant-heading',
+    heading: 'Instant — другая механика',
+    lead: 'Не crash: пошаговый риск или шарик без тайминга вылета — но те же короткие сессии в казино.',
+    items: [
+      {
+        href: '/analogi/mines/',
+        title: 'Mines',
+        tag: 'Instant',
+        icon: '💣',
+        variant: 'instant',
+        desc: 'Поле с минами: открываете ячейки и сами жмёте «Вывод». Больше контроля, чем у Plinko.',
+      },
+      {
+        href: '/analogi/chicken-rush/',
+        title: 'Chicken Rush',
+        tag: 'Instant',
+        icon: '🐔',
+        variant: 'instant',
+        desc: 'Трендовая instant с пошаговым риском. Смена формата после плинко.',
+      },
+    ],
+  },
 ];
 ---
 
-<BaseLayout
-  title="Аналоги Plinko"
-  description="Игры похожие на Plinko: Spaceman, Lucky Jet, Pilot, Aviator и другие instant-слоты."
->
+<BaseLayout title="Аналоги Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
   <PageHero
+    showPlayButton={false}
     title="Аналоги игры Plinko"
-    lead="Если хочешь сменить формат — instant и crash-игры с похожей механикой риска и множителей."
+    lead="Выберите игру — карточка целиком ведёт на обзор: чем отличается от плинко и когда имеет смысл переключиться."
   />
-  <article class="content">
+  <article class="content content--analogi">
     <div class="container">
-      <div class="card-grid">
-        {analogs.map((a) => (
-          <div class="card">
-            <a href={a.href}>{a.title}</a>
-            <p>{a.desc}</p>
-          </div>
-        ))}
-      </div>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Аналоги Plinko</strong> (плинко) — instant и crash из того же каталога казино. Нажмите на карточку, чтобы
+        открыть страницу с правилами и сравнением с <a href="/kak-igrat/">Plinko+</a>.
+      </p>
+
+      <AnalogGrid sections={analogSections} />
+
+      <h2>Чем аналоги отличаются от Plinko</h2>
+      <p>
+        В плинко один запуск шарика — результат по слоту внизу. В <strong>Mines</strong> вы открываете клетки и сами
+        жмёте «Вывод». В <strong>crash</strong> множитель растёт — нужно успеть забрать ставку. Общее: instant-формат,
+        мобильный клиент, те же операторы — см. <a href="/gde-igrat/">где играть</a>.
+      </p>
+
+      <p class="analog-footer-links">
+        Вернуться к <a href="/">Plinko</a> · <a href="/demo/">демо</a> · <a href="/otzyvy/">отзывы</a>
+        <span class="analog-age">18+</span>
+      </p>
+
+      <p><PlayButton /></p>
     </div>
   </article>
 </BaseLayout>

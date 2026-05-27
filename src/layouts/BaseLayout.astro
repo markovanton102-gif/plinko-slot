@@ -3,15 +3,40 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../config';
+import {
+  breadcrumbJsonLd,
+  defaultOgImage,
+  mergeJsonLd,
+  organizationJsonLd,
+  siteJsonLd,
+  type BreadcrumbItem,
+} from '../lib/seo';
 
 interface Props {
   title: string;
   description: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  ogImage?: string;
+  breadcrumbs?: BreadcrumbItem[];
 }
 
-const { title, description } = Astro.props;
-const fullTitle = title === site.name ? title : `${title} | ${site.name}`;
+const { title, description, jsonLd, ogImage = defaultOgImage, breadcrumbs } = Astro.props;
+
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const fullTitle = isHome
+  ? title
+  : title === site.name
+    ? title
+    : `${title} | ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.domain).href;
+const ogImageUrl = new URL(ogImage, site.domain).href;
+const structuredData = mergeJsonLd(
+  siteJsonLd,
+  organizationJsonLd,
+  breadcrumbs ? breadcrumbJsonLd(breadcrumbs) : undefined,
+  jsonLd,
+);
+const structuredScripts = Array.isArray(structuredData) ? structuredData : [structuredData];
 ---
 
 <!doctype html>
@@ -21,7 +46,25 @@ const canonical = new URL(Astro.url.pathname, site.domain).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/images/plinko-logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/images/plinko-logo.png" />
     <title>{fullTitle}</title>
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ru_RU" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    {
+      structuredScripts.map((item) => (
+        <script type="application/ld+json" set:html={JSON.stringify(item)} />
+      ))
+    }
   </head>
   <body>
     <Header />

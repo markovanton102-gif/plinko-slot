@@ -2,16 +2,41 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Spaceman', path: '/analogi/spaceman/' },
+];
+
+const metaDescription =
+  'Spaceman — аналог Plinko: космический crash, множитель и cash out. Чем отличается от плинко.';
 ---
 
-<BaseLayout
-  title="Spaceman — аналог Plinko"
-  description="Spaceman — игра вместо Plinko: crash с космонавтом, как играть онлайн."
->
-  <PageHero title="Spaceman — альтернатива Plinko" lead="Crash-формат: множитель растёт, нужно успеть забрать ставку." />
+<BaseLayout title="Spaceman — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Spaceman — альтернатива Plinko"
+    lead="Crash от Pragmatic Play: космонавт «летит», коэффициент растёт — заберите ставку вовремя."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Spaceman</strong> подойдёт, если нравится напряжение instant-раунда, но хочется сменить шарик на
+        crash-механику.
+      </p>
+
+      <h2>Spaceman и Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — случайный слот внизу поля.</li>
+        <li><strong>Spaceman</strong> — тайминг вывода до краша.</li>
+      </ul>
+      <p>
+        <a href="/analogi/aviator/">Aviator</a>, <a href="/demo/">демо Plinko</a>, <a href="/gde-igrat/">где играть</a>.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

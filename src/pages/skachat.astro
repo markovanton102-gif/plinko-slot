@@ -1,26 +1,49 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
+import ApkDownloadButton from '../components/ApkDownloadButton.astro';
 import PlayButton from '../components/PlayButton.astro';
+
+const metaDescription =
+  'Скачать Plinko (плинко) на Android и iPhone: APK казино, браузер и ярлык на экран. Как установить и играть в Plinko+ с телефона.';
 ---
 
-<BaseLayout
-  title="Плинко — скачать на Android и iPhone"
-  description="Скачать Plinko на телефон: Android, iPhone, игра в браузере и через приложение казино."
->
+<BaseLayout title="Плинко — скачать на Android и iPhone" description={metaDescription}>
   <PageHero
     title="Скачать Plinko на телефон"
-    lead="Чаще Plinko доступна в мобильном браузере или в приложении онлайн-казино — отдельный APK встречается реже."
+    lead="Отдельной игры «плинко» в Store почти нет — Plinko открывается в приложении казино или в браузере. На Android — кнопка APK ниже."
+    showPlayButton={false}
+    showApkButton={true}
   />
   <article class="content">
     <div class="container">
-      <h2>Android</h2>
-      <p>Открой сайт казино в Chrome — добавь на главный экран или используй официальное приложение оператора.</p>
-      <h2>iPhone (iOS)</h2>
-      <p>В Safari — игра в браузере; в App Store приложения казино зависят от региона.</p>
-      <h2>Компьютер</h2>
-      <p>Достаточно браузера, скачивание клиента обычно не требуется.</p>
-      <p><PlayButton /></p>
+      <h2>Скачать плинко на Android</h2>
+      <p>
+        Частый вариант — <strong>APK приложения казино</strong>: в каталоге instant-игр ищите Plinko или Plinko+.
+        Альтернатива — сайт оператора в Chrome → «Добавить на главный экран». Скачивайте APK только с официальной
+        ссылки.
+      </p>
+
+      <h2>Plinko на iPhone (iOS)</h2>
+      <p>
+        Приложения казино в App Store зависят от региона. Чаще играют в <strong>Safari</strong> с ярлыком на домашний
+        экран — полноэкранный режим без отдельного «скачать плинко» от провайдера.
+      </p>
+
+      <h2>Игра на компьютере</h2>
+      <p>
+        Достаточно браузера. Правила — <a href="/kak-igrat/">как играть</a>, проверка — <a href="/demo/">демо</a>.
+      </p>
+
+      <h2>Безопасность и 18+</h2>
+      <p>
+        Не используйте «взломанные» APK из чатов. Площадки — <a href="/gde-igrat/">где играть</a>. Игра 18+.
+      </p>
+
+      <p class="download-cta-secondary">
+        <ApkDownloadButton />
+        <PlayButton />
+      </p>
     </div>
   </article>
 </BaseLayout>

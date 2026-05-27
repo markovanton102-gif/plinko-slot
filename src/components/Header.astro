@@ -11,7 +11,16 @@ function isNavActive(href: string): boolean {
 
 <header class="site-header">
   <div class="container inner">
-    <a class="logo" href="/">{site.name}</a>
+    <a class="logo" href="/">
+      <img
+        class="logo-img"
+        src="/images/plinko-logo.png"
+        alt="Plinko 2 Multiplier Madness — игра в казино"
+        width="115"
+        height="49"
+        decoding="async"
+      />
+    </a>
     <nav class="nav" aria-label="Основное меню">
       {
         nav.map((item) => (

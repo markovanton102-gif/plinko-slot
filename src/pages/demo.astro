@@ -3,23 +3,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
 import GameDemo from '../components/GameDemo.astro';
+
+const metaDescription =
+  'Plinko демо бесплатно: играть в плинко онлайн без депозита, потренировать Plinko+ и уровни риска. Виртуальный баланс.';
 ---
 
-<BaseLayout
-  title="Plinko — демо бесплатно"
-  description="Plinko демо: играть бесплатно, потренироваться без депозита."
->
+<BaseLayout title="Плинко — демо бесплатно" description={metaDescription}>
   <PageHero
-    title="Plinko — демо-режим"
-    lead="Играйте бесплатно прямо на странице. На реальные деньги переходите только с готовым лимитом по банкроллу."
+    title="Плинко — демо-режим"
+    lead="Бесплатная игра Plinko+ на этой странице — окно ниже. Без регистрации, виртуальный баланс."
+    showPlayButton={false}
   />
+  <section class="demo-screen" aria-label="Демо-игра Plinko">
+    <div class="container">
+      <GameDemo title="Plinko+" priority />
+    </div>
+  </section>
   <article class="content">
     <div class="container">
-      <GameDemo title="Plinko+" />
-
+      <h2>Демо плинко: зачем играть бесплатно</h2>
       <p>
-        В демо можно понять механику множителей и риск без ставок на реальный баланс.
+        <strong>Plinko демо</strong> — тот же клиент, но ставки с учебного счёта. Удобно понять уровни риска, как
+        выглядят множители внизу и темп раунда. Запросы «<strong>плинко демо</strong>» и «<strong>plinko играть
+        бесплатно</strong>» — про такой режим без риска для кошелька.
       </p>
+
+      <h2>Что потренировать в демо Plinko+</h2>
+      <ul>
+        <li>размер ставки и запуск шарика;</li>
+        <li>смена риска / рядов кеглей (если есть в клиенте);</li>
+        <li>интерфейс с телефона и ПК;</li>
+        <li>ощущение волатильности на разных настройках.</li>
+      </ul>
+      <p>
+        Подробные правила — <a href="/kak-igrat/">как играть в Plinko</a>. Отзывы — <a href="/otzyvy/">отзывы</a>.
+      </p>
+
+      <h2>Демо и игра на деньги</h2>
+      <p>
+        Механика та же, баланс разный. На деньги — 18+, депозит, <a href="/igrat-na-dengi/">играть на деньги</a>,
+        <a href="/gde-igrat/">где играть</a>.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

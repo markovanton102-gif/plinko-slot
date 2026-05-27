@@ -1,6 +1,3 @@
--- Supabase Dashboard → SQL Editor → New query → вставьте ВЕСЬ файл → Run
--- Прямая ссылка: https://supabase.com/dashboard/project/jdhuierlzbfmthrupdpo/sql/new
-
 create table if not exists public.comments (
   id uuid primary key default gen_random_uuid(),
   site text not null check (char_length(trim(site)) between 2 and 64),

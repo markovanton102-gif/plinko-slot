@@ -1,18 +1,49 @@
 ---
 import PlayButton from './PlayButton.astro';
+import ApkDownloadButton from './ApkDownloadButton.astro';
+
+interface HeroImage {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+}
 
 interface Props {
   title: string;
   lead: string;
+  showPlayButton?: boolean;
+  showApkButton?: boolean;
+  image?: HeroImage;
 }
 
-const { title, lead } = Astro.props;
+const { title, lead, showPlayButton = true, showApkButton = false, image } = Astro.props;
 ---
 
 <section class="hero">
   <div class="container">
     <h1>{title}</h1>
+    {
+      image && (
+        <figure class="hero-figure">
+          <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </figure>
+      )
+    }
     <p>{lead}</p>
-    <PlayButton />
+    {showApkButton && (
+      <p class="hero-cta">
+        <ApkDownloadButton />
+      </p>
+    )}
+    {showPlayButton && <PlayButton />}
   </div>
 </section>

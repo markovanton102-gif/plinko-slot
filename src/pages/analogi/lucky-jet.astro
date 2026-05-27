@@ -2,16 +2,42 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Lucky Jet', path: '/analogi/lucky-jet/' },
+];
+
+const metaDescription =
+  'Lucky Jet — аналог Plinko: crash с растущим множителем. Сравнение с плинко и где играть онлайн.';
 ---
 
-<BaseLayout
-  title="Lucky Jet — аналог Plinko"
-  description="Lucky Jet — альтернатива игре Plinko онлайн."
->
-  <PageHero title="Lucky Jet — альтернатива Plinko" lead="Похожий instant/crash-формат для смены игры." />
+<BaseLayout title="Lucky Jet — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Lucky Jet — альтернатива Plinko"
+    lead="Crash: коэффициент растёт — нужно забрать ставку до обрыва раунда."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Lucky Jet</strong> — <strong>аналог плинко</strong> в нише crash: другое визуальное оформление, та же
+        идея «успеть вывести до краша». Без кеглей и шарика.
+      </p>
+
+      <h2>Lucky Jet vs Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — шарик, слот снизу, раунд за секунды.</li>
+        <li><strong>Lucky Jet</strong> — растущий множитель, одна кнопка cash out.</li>
+      </ul>
+      <p>
+        Похожие: <a href="/analogi/aviator/">Aviator</a>, <a href="/analogi/spaceman/">Spaceman</a>.
+        Plinko — <a href="/demo/">демо</a>, <a href="/gde-igrat/">где играть</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

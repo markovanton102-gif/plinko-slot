@@ -1,31 +1,190 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import { site } from '../config';
+
+const pageUrl = `${site.domain}/kak-igrat/`;
+const metaDescription =
+  'Как играть в Plinko онлайн: три активируемые опции — множители, порталы и шар с высоким множителем. Максимальный выигрыш до 10 000×. Правила Plinko+ с иллюстрациями.';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: 'Как играть в Plinko: три активируемые опции и механики Plinko+',
+    description: metaDescription,
+    inLanguage: 'ru-RU',
+    author: { '@type': 'Organization', name: site.name },
+    publisher: { '@type': 'Organization', name: site.name },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': pageUrl },
+  },
+];
 ---
 
 <BaseLayout
-  title="Плинко — как играть и стратегия"
-  description="Как играть в Plinko: правила, тактики, размер поля и когда забирать выигрыш."
+  title="Как играть в Plinko — правила, опции Plinko+ и множители"
+  description={metaDescription}
+  jsonLd={jsonLd}
 >
   <PageHero
-    title="Как играть в Plinko"
-    lead="Выбираешь количество мин, открываешь ячейки и фиксируешь выигрыш. Чем больше мин — тем выше риск и множитель."
+    title="Как играть в Plinko онлайн"
+    lead="В первой части гида разбираем Plinko+ (Plinko): базовую механику падения шарика и три активируемые опции — множители, дополнительное вращение и шанс на стартовый множитель."
   />
-  <article class="content">
-    <div class="container">
-      <h2>Базовые шаги</h2>
-      <ol>
-        <li>Укажи ставку и число мин на поле.</li>
-        <li>Открывай ячейки по одной.</li>
-        <li>Забирай выигрыш до попадания на мину.</li>
-      </ol>
-      <h2>Простые тактики</h2>
-      <ul>
-        <li>Фиксированный лимит ячеек за раунд (например, 3–5)</li>
-        <li>Стоп-лосс на сессию, не отыгрываться</li>
-        <li>Меньше мин на поле — спокойнее, но ниже множители</li>
-      </ul>
+  <article class="content article-guide">
+    <div class="container container--wide">
+      <p class="article-lead">
+        <strong>Plinko</strong> — instant-игра в казино: шарик падает по пирамиде колышков и попадает в слот с
+        множителем внизу. В расширенной версии <strong>Plinko+</strong> перед стартом можно включить до
+        <strong>трёх активируемых опций</strong>, которые меняют поле и потенциальный выигрыш.
+      </p>
+
+      <h2 id="chast-1">Часть 1. Три активируемые опции</h2>
+
+      <section class="article-split">
+        <figure class="article-split-media">
+          <img
+            src="/images/kak-igrat/plinko-tri-opcii.png"
+            loading="lazy"
+            decoding="async"
+            alt="Plinko+: три активируемые опции — Множители, Шанс на дополнительное вращение, Шанс на множитель"
+          />
+        </figure>
+        <div class="article-split-body">
+          <h3 id="tri-opcii">Обзор опций</h3>
+          <p>
+            Перед раундом игрок выбирает, какие бонусы включить. На экране обучения — заголовок
+            <strong>«Три активируемые опции»</strong>. Их можно комбинировать (до трёх одновременно):
+          </p>
+          <ul>
+            <li><strong>Множители</strong> — растяжки на поле, увеличивающие множитель шарика.</li>
+            <li>
+              <strong>Шанс на дополнительное вращение</strong> — порталы; попадание даёт дополнительный шарик.
+            </li>
+            <li><strong>Шанс на множитель</strong> — шарик с повышенным стартовым множителем.</li>
+          </ul>
+          <p>
+            Для старта раунда нажимают <strong>«Нажмите для старта»</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section class="article-split article-split--reverse">
+        <figure class="article-split-media">
+          <img
+            src="/images/kak-igrat/plinko-mnozhiteli.png"
+            loading="lazy"
+            decoding="async"
+            alt="Plinko+ опция Множители: до 3 растяжек на поле, шарик x1 превращается в x2, x2 в x4"
+          />
+        </figure>
+        <div class="article-split-body">
+          <h3 id="mnozhiteli">Множители</h3>
+          <p>
+            В Plinko+ заявлен <strong>максимальный выигрыш 10&nbsp;000×</strong>. Опция
+            <strong>«Множители»</strong>:
+          </p>
+          <p class="article-quote">
+            «Добавляет на поле до 3 растяжек. Их прохождение увеличивает множитель шарика.»
+          </p>
+          <p>
+            На схеме: шар <strong>×1</strong> после линии становится <strong>×2</strong>, шар
+            <strong>×2</strong> — <strong>×4</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section class="article-split">
+        <figure class="article-split-media">
+          <img
+            src="/images/kak-igrat/plinko-portaly.png"
+            loading="lazy"
+            decoding="async"
+            alt="Plinko+ шесть порталов на поле, дополнительный шарик при попадании в портал"
+          />
+        </figure>
+        <div class="article-split-body">
+          <h3 id="portaly">Шанс на дополнительное вращение</h3>
+          <p>
+            <strong>«Добавляет на поле 6 порталов. Приземление в один из них дает дополнительный шарик.»</strong>
+          </p>
+          <p>
+            Шарик попадает в портал и возвращается в верх пирамиды — <strong>ещё одно падение</strong> без новой
+            ставки на этот шар. Внизу слоты с множителями: <strong>2×</strong>, <strong>0,1×</strong>,
+            <strong>2×</strong>, <strong>4×</strong>.
+          </p>
+        </div>
+      </section>
+
+      <section class="article-split article-split--reverse">
+        <figure class="article-split-media">
+          <img
+            src="/images/kak-igrat/plinko-sharik-mnozhitel.png"
+            loading="lazy"
+            decoding="async"
+            alt="Plinko+ шанс на множитель: шарики со стартовым множителем x1, x2 и x4"
+          />
+        </figure>
+        <div class="article-split-body">
+          <h3 id="shar-mnozhitel">Шанс на множитель</h3>
+          <p>
+            <strong>«Эта опция дает шанс получить шарик с высоким стартовым множителем.»</strong>
+          </p>
+          <ul>
+            <li>розовый шарик — <strong>×1</strong>;</li>
+            <li>бирюзовый — <strong>×2</strong>;</li>
+            <li>синий — <strong>×4</strong>.</li>
+          </ul>
+          <p>
+            Часть раундов стартует с более выгодного множителя до попадания в нижний слот.
+          </p>
+        </div>
+      </section>
+
+      <section class="article-split article-split--full">
+        <figure class="article-split-media">
+          <img
+            src="/images/kak-igrat/plinko-start.png"
+            loading="lazy"
+            decoding="async"
+            alt="Экран Plinko+ со стартовой кнопкой Играть, выбором числа шаров, количества линий и уровня риска"
+          />
+        </figure>
+        <div class="article-split-body">
+          <h3 id="upravlenie-raundom">Управление раундом: шары, линии и риск</h3>
+          <p>На этом экране видно основные настройки перед запуском:</p>
+          <ul>
+            <li><strong>Число шаров</strong> — можно выбрать, сколько шариков будут падать сразу.</li>
+            <li><strong>Линии</strong> — настраивается количество рядов (высота поля/пирамиды).</li>
+            <li><strong>Уровень риска</strong> — влияет на распределение множителей и волатильность раунда.</li>
+          </ul>
+          <p>
+            После выбора параметров нажимают кнопку <strong>«Играть»</strong>, и начинается падение шариков по
+            выбранной конфигурации поля.
+          </p>
+        </div>
+      </section>
+
+      <h2 id="start">Как начать раунд</h2>
+      <p>
+        На всех экранах обучения внизу — <strong>«Нажмите для старта»</strong> или <strong>«Играть»</strong>.
+        После выбора ставки и опций запускается падение шарика(ов).
+      </p>
+
+      <p class="article-note">
+        <strong>Дальше:</strong> во второй части гида — ставка, риск-уровни и тактика.
+      </p>
+
+      <p>
+        Попробовать без риска — <a href="/demo/">демо Plinko</a>, площадки — в
+        <a href="/gde-igrat/">«Где играть»</a>.
+      </p>
+
+      <p class="article-disclaimer">
+        <strong>18+.</strong> Азартные игры связаны с риском потери денег. Материал информационный. Играйте
+        ответственно.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

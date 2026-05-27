@@ -2,30 +2,52 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const metaDescription =
+  'Играть в Plinko (плинко) на реальные деньги: регистрация 18+, депозит, поиск Plinko+ в казино. Пошаговый старт.';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Играть на деньги', path: '/igrat-na-dengi/' },
+];
 ---
 
 <BaseLayout
   title="Плинко — играть на деньги"
-  description="Играть в Plinko на реальные деньги: регистрация, депозит и старт игры онлайн."
+  description={metaDescription}
+  breadcrumbs={breadcrumbs}
 >
   <PageHero
     title="Играть в Plinko на деньги"
-    lead="Чтобы играть на реальные деньги, нужна регистрация на площадке с этой игрой в каталоге и пополнение счёта."
+    lead="Реальные ставки после регистрации на площадке с Plinko в каталоге. Ниже — порядок действий."
   />
   <article class="content">
     <div class="container">
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        «<strong>плинко на деньги</strong>» и «<strong>plinko играть на реальные деньги</strong>» — про instant-игру с
+        депозитом. Сначала <a href="/demo/">демо</a> и <a href="/kak-igrat/">правила</a>.
+      </p>
+
       <h2>Как начать</h2>
       <ol>
-        <li>Выбери площадку с Plinko в каталоге instant-игр.</li>
-        <li>Зарегистрируйся (18+).</li>
-        <li>Пополни счёт удобным способом.</li>
-        <li>Найди Plinko в разделе игр и сделай ставку.</li>
+        <li>Площадка из <a href="/gde-igrat/">где играть</a>.</li>
+        <li>Регистрация 18+.</li>
+        <li>Депозит: <a href="/popolnenie-kartoy/">карта</a>, <a href="/popolnenie-usdt/">USDT</a>, <a href="/popolnenie-qiwi/">QIWI</a>.</li>
+        <li>Поиск <strong>Plinko</strong> / <strong>Plinko+</strong> в instant-играх.</li>
+        <li>Лимит на сессию, ответственная игра.</li>
       </ol>
-      <p>
-        Способы пополнения:
-        <a href="/popolnenie-kartoy/">карта</a>,
-        <a href="/popolnenie-usdt/">USDT</a>.
-      </p>
+
+      <h2>На что обратить внимание</h2>
+      <ul>
+        <li>лимиты ставок и депозита;</li>
+        <li>скорость вывода, KYC;</li>
+        <li>отыгрыш бонусов и instant-игры;</li>
+        <li><a href="/skachat/">мобильное приложение</a>.</li>
+      </ul>
+
       <p><PlayButton /></p>
     </div>
   </article>

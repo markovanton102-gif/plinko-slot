@@ -3,9 +3,10 @@ import { demoGameUrl } from '../config';
 
 interface Props {
   title?: string;
+  priority?: boolean;
 }
 
-const { title = 'Plinko — демо' } = Astro.props;
+const { title = 'Plinko — демо', priority = false } = Astro.props;
 ---
 
 {
@@ -15,7 +16,7 @@ const { title = 'Plinko — демо' } = Astro.props;
         title={title}
         src={demoGameUrl}
         allow="fullscreen"
-        loading="lazy"
+        loading={priority ? 'eager' : 'lazy'}
       />
     </div>
   ) : (

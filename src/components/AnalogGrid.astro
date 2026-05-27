@@ -1,0 +1,49 @@
+---
+export type AnalogItem = {
+  href: string;
+  title: string;
+  desc: string;
+  tag: string;
+  icon: string;
+  variant: 'crash' | 'instant';
+};
+
+export type AnalogSection = {
+  id: string;
+  heading: string;
+  lead: string;
+  items: AnalogItem[];
+};
+
+interface Props {
+  sections: AnalogSection[];
+}
+
+const { sections } = Astro.props;
+---
+
+{
+  sections.map((section) => (
+    <section class="analog-section" aria-labelledby={section.id}>
+      <h2 id={section.id}>{section.heading}</h2>
+      <p class="analog-section-lead">{section.lead}</p>
+      <ul class="analog-grid">
+        {
+          section.items.map((a) => (
+            <li>
+              <a href={a.href} class={`analog-card analog-card--${a.variant}`}>
+                <span class="analog-card__icon" aria-hidden="true">
+                  {a.icon}
+                </span>
+                <span class="analog-card__tag">{a.tag}</span>
+                <h3 class="analog-card__title">{a.title}</h3>
+                <p class="analog-card__desc">{a.desc}</p>
+                <span class="analog-card__cta">Читать обзор</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+  ))
+}

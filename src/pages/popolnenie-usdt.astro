@@ -2,20 +2,49 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const metaDescription =
+  'Пополнение Plinko через USDT: депозит в казино, сети TRC20/ERC20 и запуск плинко онлайн.';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Пополнение USDT', path: '/popolnenie-usdt/' },
+];
 ---
 
 <BaseLayout
   title="Плинко — пополнение USDT"
-  description="Играть в Plinko через USDT и криптовалюту: депозит Bitcoin USDT."
+  description={metaDescription}
+  breadcrumbs={breadcrumbs}
 >
   <PageHero
     title="Plinko — пополнение USDT"
-    lead="Криптовалюта часто используется там, где карты ограничены. USDT — стабильный вариант без волатильности BTC."
+    lead="Криптодепозит удобен, когда карты блокируют платежи. Проверяйте сеть и адрес в кассе."
   />
   <article class="content">
     <div class="container">
-      <p>Выбери депозит USDT (TRC-20 / ERC-20 — смотри сеть на площадке), зачисли и открой Plinko.</p>
-      <p><a href="/popolnenie-kartoy/">Пополнение картой</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Plinko пополнение USDT</strong> — для тех, кто держит стейблкоины. После зачисления ищите
+        <strong>Plinko+</strong> в instant-играх.
+      </p>
+
+      <h2>Депозит USDT</h2>
+      <ol>
+        <li><a href="/gde-igrat/">Площадка</a>.</li>
+        <li>Касса → USDT.</li>
+        <li>Верная <strong>сеть</strong> (TRC20, ERC20).</li>
+        <li>Ожидание подтверждений в блокчейне.</li>
+        <li>Запуск Plinko.</li>
+      </ol>
+
+      <p>
+        <a href="/popolnenie-kartoy/">Карта</a>, <a href="/popolnenie-qiwi/">QIWI</a>.
+        <a href="/demo/">Демо</a>, <a href="/kak-igrat/">правила</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

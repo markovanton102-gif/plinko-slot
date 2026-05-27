@@ -2,20 +2,48 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const metaDescription =
+  'Пополнение для игры Plinko картой Visa и Mastercard: депозит в казино и запуск плинко онлайн.';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Пополнение картой', path: '/popolnenie-kartoy/' },
+];
 ---
 
 <BaseLayout
   title="Плинко — пополнение картой"
-  description="Играть в Plinko через карту Visa Mastercard: пополнение и старт игры."
+  description={metaDescription}
+  breadcrumbs={breadcrumbs}
 >
   <PageHero
     title="Plinko — пополнение банковской картой"
-    lead="Карта остаётся популярным способом депозита там, где банки не блокируют транзакции в гемблинг."
+    lead="Карта — популярный способ депозита там, где банки пропускают платежи в онлайн-казино."
   />
   <article class="content">
     <div class="container">
-      <p>После пополнения картой найди Plinko в каталоге instant-игр и сделай ставку.</p>
-      <p>Альтернатива: <a href="/popolnenie-usdt/">пополнение USDT</a>.</p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        Чтобы <strong>играть в плинко на деньги</strong> после пополнения картой, нужен аккаунт на площадке с Plinko в
+        каталоге. Депозит — в кассе оператора.
+      </p>
+
+      <h2>Как пополнить и открыть Plinko</h2>
+      <ol>
+        <li><a href="/gde-igrat/">Где играть</a> — выбор оператора.</li>
+        <li>Касса → Visa / Mastercard.</li>
+        <li>Подтверждение 3-D Secure.</li>
+        <li>Поиск <strong>Plinko+</strong> в каталоге.</li>
+      </ol>
+
+      <p>
+        Карта не проходит — <a href="/popolnenie-usdt/">USDT</a>, <a href="/popolnenie-qiwi/">кошельки</a>.
+        <a href="/demo/">Демо</a>, <a href="/igrat-na-dengi/">игра на деньги</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

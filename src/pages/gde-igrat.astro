@@ -2,39 +2,45 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
-import { whereToPlay } from '../config';
+import PartnerCards from '../components/PartnerCards.astro';
+
+const metaDescription =
+  'Где играть в Plinko (плинко) онлайн: площадки с Plinko+, критерии выбора казино, пополнение и вывод.';
 ---
 
-<BaseLayout
-  title="Где играть в Plinko онлайн"
-  description="Где играть в плинко онлайн: на что смотреть при выборе площадки, лицензия и выплаты."
->
+<BaseLayout title="Где играть в Plinko онлайн" description={metaDescription}>
   <PageHero
     title="Где играть в Plinko"
-    lead="Ищи площадки с instant-играми в каталоге, быстрым выводом и поддержкой твоего способа оплаты."
+    lead="Ниже — площадки с Plinko / Plinko+ в каталоге. Перед депозитом сравните лимиты, выплаты и мобильное приложение."
   />
   <article class="content">
     <div class="container">
-      <h2>Площадки с Plinko</h2>
-      <div class="card-grid">
-        {
-          whereToPlay.map((item) => (
-            <div class="card">
-              <a href={item.url} rel="nofollow sponsored noopener" target="_blank">
-                {item.name}
-              </a>
-            </div>
-          ))
-        }
-      </div>
+      <h2 id="ploshadki">Площадки с Plinko и Plinko+</h2>
+      <p class="where-intro">
+        Переход открывает сайт оператора (18+). Сначала — <a href="/demo/">демо</a> на нашем сайте.
+      </p>
+      <PartnerCards />
 
-      <h2>Критерии выбора</h2>
+      <h2>Как выбрать, где играть в плинко онлайн</h2>
+      <p>
+        Запрос «<strong>где играть в plinko</strong>» зависит от гео, валюты и способа оплаты. Игра в разделе
+        <strong>Instant Games</strong> или поиске «Plinko». Не путайте с одноимёнными слотами других провайдеров.
+      </p>
+
+      <h2>Критерии выбора казино с Plinko</h2>
       <ul>
-        <li>Игра Plinko есть в лобби (Pragmatic Play и др.)</li>
-        <li>Поддержка твоей валюты и гео</li>
-        <li>Удобное пополнение и вывод</li>
-        <li>Мобильная версия без лагов</li>
+        <li><strong>Игра в лобби</strong> — Plinko, Plinko+; лимиты и RTP в справке клиента.</li>
+        <li><strong>Лицензия</strong> — отзывы о выплатах (<a href="/otzyvy/">отзывы</a>).</li>
+        <li><strong>Платежи</strong> — <a href="/popolnenie-kartoy/">карта</a>, <a href="/popolnenie-usdt/">USDT</a>, <a href="/popolnenie-qiwi/">QIWI</a>.</li>
+        <li><strong>Мобилка</strong> — <a href="/skachat/">скачать</a> или браузер без лагов.</li>
+        <li><strong>Бонусы</strong> — instant-игры иногда исключены из отыгрыша.</li>
       </ul>
+
+      <h2>Как найти Plinko в каталоге</h2>
+      <p>
+        Поиск: <strong>Plinko</strong>, <strong>Plinko+</strong>, <strong>Plinko XY</strong>. Новичкам: <a href="/demo/">демо</a> → <a href="/kak-igrat/">правила</a> → небольшой депозит. <a href="/igrat-na-dengi/">Игра на деньги</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

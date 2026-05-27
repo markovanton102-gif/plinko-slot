@@ -1,5 +1,3 @@
--- Если таблица comments уже была без колонки site — выполните этот файл в SQL Editor.
-
 alter table public.comments
   add column if not exists site text;
 

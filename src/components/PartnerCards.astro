@@ -1,0 +1,31 @@
+---
+import { whereToPlay } from '../config';
+---
+
+<ul class="partner-grid">
+  {
+    whereToPlay.map((partner) => (
+      <li>
+        <a
+          href={partner.url}
+          class:list={['partner-card', partner.featured && 'partner-card--featured']}
+          rel="nofollow sponsored noopener"
+          target="_blank"
+        >
+          <span class="partner-card__icon" aria-hidden="true">
+            {partner.icon}
+          </span>
+          {partner.featured && <span class="partner-card__badge">Рекомендуем</span>}
+          <h3 class="partner-card__name">{partner.name}</h3>
+          <p class="partner-card__desc">{partner.desc}</p>
+          <ul class="partner-card__perks">
+            {partner.perks.map((perk) => (
+              <li>{perk}</li>
+            ))}
+          </ul>
+          <span class="partner-card__cta">Перейти на сайт</span>
+        </a>
+      </li>
+    ))
+  }
+</ul>

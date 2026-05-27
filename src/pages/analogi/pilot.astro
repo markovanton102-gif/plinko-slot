@@ -2,16 +2,40 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Pilot', path: '/analogi/pilot/' },
+];
+
+const metaDescription =
+  'Pilot — аналог Plinko: crash «пилот» в СНГ. Сравнение с плинко и Aviator.';
 ---
 
-<BaseLayout
-  title="Pilot — аналог Plinko"
-  description="Pilot crash — альтернатива игре Plinko онлайн."
->
-  <PageHero title="Pilot — альтернатива Plinko" lead="Популярный crash-слот в СНГ, часто ищут как «пилот игра»." />
+<BaseLayout title="Pilot — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Pilot — альтернатива Plinko"
+    lead="Crash «пилот»: растущий коэффициент, вывод до обрыва раунда."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Pilot</strong> — популярный crash в СНГ и <strong>аналог плинко</strong> по запросу «пилот игра».
+      </p>
+
+      <h2>Pilot vs Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — падение шарика, мгновенный итог.</li>
+        <li><strong>Pilot</strong> — фокус на тайминге вывода.</li>
+      </ul>
+      <p>
+        <a href="/analogi/aviator/">Aviator</a>, <a href="/demo/">демо Plinko</a>, <a href="/analogi/">аналоги</a>.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

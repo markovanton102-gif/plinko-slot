@@ -2,19 +2,47 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import PlayButton from '../components/PlayButton.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+
+const metaDescription =
+  'Пополнение Plinko через QIWI и электронные кошельки: депозит в казино и запуск плинко онлайн.';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Пополнение QIWI', path: '/popolnenie-qiwi/' },
+];
 ---
 
 <BaseLayout
   title="Плинко — пополнение QIWI"
-  description="Пополнение для игры Plinko через QIWI и электронные кошельки где доступно."
+  description={metaDescription}
+  breadcrumbs={breadcrumbs}
 >
   <PageHero
     title="Plinko — электронные кошельки"
-    lead="Доступность QIWI и аналогов зависит от площадки и региона. Проверяй кассу перед регистрацией."
+    lead="QIWI и аналоги доступны не везде. Проверьте кассу оператора перед регистрацией."
   />
   <article class="content">
     <div class="container">
-      <p>Если кошелёк доступен в кассе — пополни баланс и запусти Plinko из каталога игр.</p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        «<strong>плинко пополнение QIWI</strong>» — если метод есть в кассе выбранного казино. Список в кассе актуальнее обзоров.
+      </p>
+
+      <h2>Как пополнить через QIWI</h2>
+      <ol>
+        <li><a href="/gde-igrat/">Регистрация</a> на площадке.</li>
+        <li>Депозит → QIWI / ЮMoney.</li>
+        <li>Подтверждение в приложении кошелька.</li>
+        <li><strong>Plinko</strong> в каталоге.</li>
+      </ol>
+
+      <p>
+        Нет QIWI — <a href="/popolnenie-kartoy/">карта</a>, <a href="/popolnenie-usdt/">USDT</a>.
+        <a href="/demo/">Демо</a>, <a href="/igrat-na-dengi/">на деньги</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

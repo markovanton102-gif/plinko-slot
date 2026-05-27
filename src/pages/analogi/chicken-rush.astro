@@ -2,16 +2,41 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Chicken Rush', path: '/analogi/chicken-rush/' },
+];
+
+const metaDescription =
+  'Chicken Rush — аналог Plinko: instant с курицей, шаги и множитель. Чем отличается от плинко.';
 ---
 
-<BaseLayout
-  title="Chicken Rush — аналог Plinko"
-  description="Chicken Rush — instant-игра, альтернатива Plinko."
->
-  <PageHero title="Chicken Rush — альтернатива Plinko" lead="Трендовая instant-игра с простой механикой." />
+<BaseLayout title="Chicken Rush — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Chicken Rush — альтернатива Plinko"
+    lead="Пошаговый instant: растёт множитель — заберите выигрыш до опасного шага."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Chicken Rush</strong> — <strong>аналог плинко</strong> с другим сеттингом: не шарик, а шаги и вывод,
+        похожая психология «ещё один шаг».
+      </p>
+
+      <h2>Chicken Rush и Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — один запуск, результат сразу.</li>
+        <li><strong>Chicken Rush</strong> — серия шагов, вывод в любой момент.</li>
+      </ul>
+      <p>
+        <a href="/analogi/mines/">Mines</a>, <a href="/demo/">демо</a>, <a href="/gde-igrat/">где играть</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

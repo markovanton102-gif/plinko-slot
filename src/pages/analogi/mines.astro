@@ -2,16 +2,44 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Mines', path: '/analogi/mines/' },
+];
+
+const metaDescription =
+  'Mines — аналог Plinko: поле с минами, вывод выигрыша. Чем мины отличаются от плинко и где играть онлайн.';
 ---
 
-<BaseLayout
-  title="Mines — аналог Plinko"
-  description="Mines — альтернатива игре Plinko онлайн."
->
-  <PageHero title="Mines — альтернатива Plinko" lead="Похожий instant/crash-формат для смены игры." />
+<BaseLayout title="Mines — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Mines — альтернатива Plinko"
+    lead="Instant с полем 5×5: открываете ячейки, растёт множитель — заберите выигрыш до мины."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Mines</strong> — частый <strong>аналог плинко</strong> для тех, кому хочется больше контроля за раундом.
+        Нет падающего шарика — вы сами выбираете клетки и момент «Вывода».
+      </p>
+
+      <h2>Mines и Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — один бросок, результат сразу.</li>
+        <li><strong>Mines</strong> — пошаговое открытие, кнопка вывода в любой момент.</li>
+        <li>Обе — instant в том же казино, что <a href="/gde-igrat/">Plinko+</a>.</li>
+      </ul>
+
+      <p>
+        Вернуться к плинко: <a href="/demo/">демо</a>, <a href="/kak-igrat/">как играть</a>.
+        Другие аналоги — <a href="/analogi/">список</a>.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

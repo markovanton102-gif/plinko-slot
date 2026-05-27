@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const metaDescription =
+  'Страница не найдена. Вернитесь на главную — Plinko (плинко): демо, правила, отзывы и где играть онлайн.';
+---
+
+<BaseLayout title="Страница не найдена" description={metaDescription}>
+  <PageHero
+    title="404 — страница не найдена"
+    lead="Возможно, ссылка устарела. Перейдите на главную или выберите раздел ниже."
+    showPlayButton={false}
+  />
+  <article class="content">
+    <div class="container">
+      <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/kak-igrat/">Как играть в Plinko</a></li>
+        <li><a href="/demo/">Демо бесплатно</a></li>
+        <li><a href="/gde-igrat/">Где играть</a></li>
+        <li><a href="/otzyvy/">Отзывы</a></li>
+        <li><a href="/analogi/">Аналоги Plinko</a></li>
+      </ul>
+    </div>
+  </article>
+</BaseLayout>

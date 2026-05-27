@@ -2,16 +2,41 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
 import PlayButton from '../../components/PlayButton.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+
+const breadcrumbs = [
+  { name: 'Главная', path: '/' },
+  { name: 'Аналоги Plinko', path: '/analogi/' },
+  { name: 'Aviator', path: '/analogi/aviator/' },
+];
+
+const metaDescription =
+  'Aviator — аналог Plinko: crash с самолётом, cash out. Сравнение с плинко онлайн.';
 ---
 
-<BaseLayout
-  title="Aviator — аналог Plinko"
-  description="Aviator — игра вместо Plinko, crash с самолётом."
->
-  <PageHero title="Aviator — альтернатива Plinko" lead="Самый известный crash в нише. Высокая конкуренция в SEO." />
+<BaseLayout title="Aviator — аналог Plinko" description={metaDescription} breadcrumbs={breadcrumbs}>
+  <PageHero
+    title="Aviator — альтернатива Plinko"
+    lead="Классика crash: самолёт уносит множитель вверх — заберите ставку до вылета."
+  />
   <article class="content">
     <div class="container">
-      <p><a href="/">← Вернуться к Plinko</a></p>
+      <Breadcrumbs items={breadcrumbs} />
+
+      <p class="article-lead">
+        <strong>Aviator</strong> — узнаваемый <strong>аналог плинко</strong> в crash-нише. Другая механика, похожий
+        темп сессии.
+      </p>
+
+      <h2>Aviator или Plinko</h2>
+      <ul>
+        <li><strong>Plinko</strong> — шарик и множитель в ячейке.</li>
+        <li><strong>Aviator</strong> — одно решение «когда забрать».</li>
+      </ul>
+      <p>
+        <a href="/analogi/lucky-jet/">Lucky Jet</a>, <a href="/kak-igrat/">Plinko</a>, <a href="/gde-igrat/">где играть</a>. 18+.
+      </p>
+
       <p><PlayButton /></p>
     </div>
   </article>

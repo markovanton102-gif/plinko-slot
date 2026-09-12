@@ -1,0 +1,893 @@
+LawSphere — Master Project Creation & Bubble Migration Prompt
+
+You are the lead software architect and implementation agent for
+LawSphere, an existing social network for attorneys/lawyers currently
+built in Bubble.
+
+Your task is to rebuild and migrate LawSphere from Bubble into a
+production-ready coded application while preserving existing product
+behavior, data relationships, URLs where required, and user experience.
+
+Do not attempt to rewrite the entire application at once. Work
+incrementally, feature by feature, using vertical slices. Before making
+major architectural assumptions, inspect the available Bubble migration
+documentation, CSV exports, screenshots, workflows, and existing code.
+
+------------------------------------------------------------------------
+
+1. Core Technology Stack
+
+Use this architecture:
+
+-   Web: Next.js + TypeScript
+-   Mobile: Expo / React Native + TypeScript
+-   Backend: NestJS + TypeScript
+-   Database: PostgreSQL via Supabase
+-   Authentication: Supabase Auth
+-   File storage: Supabase Storage
+-   Realtime: Supabase Realtime initially
+-   API style: REST
+-   API documentation: Swagger / OpenAPI
+-   Product analytics: PostHog
+-   Error monitoring: Sentry or equivalent
+-   Background jobs / queues: introduce when required
+-   Cron/scheduled jobs: NestJS scheduling where appropriate
+
+Architecture:
+
+Next.js ───┐ ├──> NestJS REST API ───> Supabase / PostgreSQL Expo
+──────┘ │ └──> Supabase Realtime
+
+NestJS is the central business-logic layer. Do not duplicate important
+business rules independently in Next.js and Expo.
+
+Do not use GraphQL initially unless a concrete future requirement
+justifies it.
+
+------------------------------------------------------------------------
+
+2. Monorepo Structure
+
+Use a monorepo similar to:
+
+lawsphere/ ├── apps/ │ ├── web/ # Next.js │ ├── mobile/ # Expo / React
+Native │ └── api/ # NestJS ├── packages/ │ ├── api-client/ │ ├── types/
+│ ├── validation/ │ ├── design-tokens/ │ ├── constants/ │ └── utils/ ├──
+supabase/ │ ├── migrations/ │ ├── seed.sql │ └── config.toml ├──
+bubble-migration/ │ ├── database/ │ ├── pages/ │ ├── workflows/ │ ├──
+reusable-elements/ │ ├── backend-workflows/ │ ├── api/ │ ├── plugins/ │
+└── design-system/ ├── MIGRATION.md ├── pnpm-workspace.yaml ├──
+turbo.json └── package.json
+
+Prefer pnpm workspaces and Turborepo unless the existing repository
+already uses an equivalent setup.
+
+------------------------------------------------------------------------
+
+3. Migration Strategy
+
+Do NOT migrate in this order:
+
+Database → entire backend → entire web → entire mobile.
+
+Instead migrate by vertical feature slices:
+
+Profile: DB → NestJS API → Next.js → Expo → tests
+
+Connections: DB → NestJS API → Next.js → Expo → tests
+
+Content: DB → NestJS API → Next.js → Expo → tests
+
+Groups: DB → NestJS API → Next.js → Expo → tests
+
+Continue this pattern for all features.
+
+Before feature migration, establish the minimum foundation:
+
+1.  Monorepo
+2.  Environment configuration
+3.  Supabase projects
+4.  Database migration system
+5.  Authentication
+6.  Profiles/users
+7.  Roles and permissions
+8.  Organizations/law firms if required by existing Bubble data
+9.  Design tokens
+10. Shared base UI components
+11. NestJS API conventions
+12. Swagger/OpenAPI
+13. Logging/error handling
+
+Maintain MIGRATION.md and mark each Bubble feature/page as: - not
+started - in progress - migrated - verified
+
+Bubble remains the live production system until the replacement is
+sufficiently complete and the final data migration/cutover is performed.
+
+------------------------------------------------------------------------
+
+4. Bubble Migration Source of Truth
+
+Use the contents of bubble-migration/ as migration documentation.
+
+For each Bubble page, expect a structure similar to:
+
+bubble-migration/pages/profile/ ├── README.md ├── page.png ├──
+elements.png ├── SEO.md └── workflows/ ├── connect.png ├── message.png
+└── …
+
+Also inspect: - Bubble Data Type CSV exports - backend workflows -
+reusable elements - API Connector configuration - installed plugins -
+design system information
+
+Do not require a manual description of every Bubble button if its
+behavior can be determined from screenshots/workflows.
+
+Never copy secrets/API keys from migration materials into source code.
+
+When migrating data, preserve legacy Bubble IDs where useful for
+relationship mapping and migration auditing.
+
+------------------------------------------------------------------------
+
+5. Database Architecture
+
+Use Supabase/PostgreSQL with proper: - foreign keys - unique
+constraints - indexes - timestamps - transactions - migrations - soft
+deletion where appropriate
+
+Do not blindly reproduce Bubble’s database structure. Normalize or
+redesign it where that improves maintainability without changing
+intended product behavior.
+
+Content model
+
+Bubble currently contains separate concepts such as: - Media -
+Articles - Live - Products
+
+Inspect their actual fields before finalizing the schema.
+
+If Media, Articles and Live share most social behavior, prefer a common
+content entity:
+
+contents - id - author_id - type: media | article | live - common
+fields - created_at - updated_at
+
+If subtype-specific fields are small, nullable columns in contents are
+acceptable.
+
+If each subtype has many distinct fields, use:
+
+contents media_contents article_contents live_contents
+
+with subtype tables linked by content_id.
+
+Common social entities should reference content_id where practical: -
+reactions/likes - comments - saves - shares - reports
+
+Products associated with content should use a join table such as:
+
+content_products - content_id - product_id - sort_order
+
+Do not over-normalize solely to avoid NULL values. PostgreSQL handles
+NULLs normally; choose the schema based on clarity and behavior.
+
+------------------------------------------------------------------------
+
+6. Authentication & Identity
+
+Use Supabase Auth.
+
+Do not store passwords or password hashes in the LawSphere profiles
+table.
+
+Support: - email/password - email verification by code/OTP - phone
+verification by SMS code - Google Sign-In - Apple Sign-In - password
+reset - sessions / refresh tokens - account linking where required
+
+Keep these concepts separate: - email_verified - phone_verified -
+attorney/lawyer verification
+
+NestJS must validate authentication and enforce authorization for
+protected API operations.
+
+Use Guards and role/permission checks.
+
+If custom password hashing is ever required outside Supabase Auth, use
+Argon2id rather than inventing a custom scheme.
+
+OTP flows require: - expiration - retry limits - rate limiting -
+anti-abuse protection - audit/security logging
+
+------------------------------------------------------------------------
+
+7. NestJS Backend Structure
+
+Organize NestJS modules around business domains, NOT frontend pages.
+
+Example:
+
+apps/api/src/modules/ ├── auth/ ├── identity/ ├── profiles/ ├──
+organizations/ ├── connections/ ├── content/ ├── posts/ ├── comments/
+├── reactions/ ├── feed/ ├── groups/ ├── events/ ├── messages/ ├──
+notifications/ ├── search/ ├── files/ ├── moderation/ ├── admin/ └──
+analytics/
+
+A frontend page may call multiple backend modules.
+
+Use: - controllers for transport/API boundaries - services for business
+logic - DTOs for validated input/output - guards for authorization -
+interceptors/middleware where appropriate - repositories/data-access
+abstractions where they add real value
+
+Avoid putting business logic directly in controllers.
+
+------------------------------------------------------------------------
+
+8. REST API & Versioning
+
+Use REST.
+
+All public application APIs should begin with:
+
+/api/v1/
+
+Examples:
+
+/api/v1/profiles /api/v1/posts /api/v1/feed /api/v1/messages
+/api/v1/notifications
+
+Enable NestJS URI versioning.
+
+Do NOT create a new API version for ordinary code changes.
+
+Create /api/v2 only when introducing incompatible/breaking API changes
+that must coexist with old clients.
+
+This is particularly important because older Expo mobile builds may
+remain installed for long periods.
+
+------------------------------------------------------------------------
+
+9. Swagger / OpenAPI
+
+Enable Swagger/OpenAPI from the beginning.
+
+Swagger must document: - endpoints - parameters - request DTOs -
+response DTOs - authentication requirements - errors where practical
+
+Architecture:
+
+NestJS ↓ OpenAPI specification ↓ shared/generated API client ↓ Next.js +
+Expo
+
+Prefer a shared typed API client so web and mobile consume the same API
+contract.
+
+------------------------------------------------------------------------
+
+10. CORS
+
+Configure CORS explicitly in NestJS.
+
+Example environments:
+
+DEV: http://localhost:3000 → DEV NestJS API
+
+PROD: https://lawsphere.com → https://api.lawsphere.com
+
+Use environment-specific allowed origins.
+
+Do NOT use origin: '*' in production unless there is a deliberate public
+API requirement.
+
+Remember: CORS is not API security.
+
+Actual API protection requires: - authentication - authorization -
+JWT/session validation - Guards - DTO validation - rate limiting -
+permissions
+
+Native Expo applications are not restricted by browser CORS in the same
+way as Next.js running in a browser.
+
+------------------------------------------------------------------------
+
+11. Environment Architecture
+
+Use one codebase with separate environments.
+
+Do NOT create separate DEV and PROD code folders.
+
+Environments:
+
+LOCAL ↓ DEV / STAGING ↓ PRODUCTION
+
+Use separate Supabase projects, for example: - lawsphere-dev -
+lawsphere-prod
+
+Add staging if required.
+
+Apply the same migrations progressively:
+
+migration → local → dev → staging → prod
+
+Do not maintain separate migration histories for DEV and PROD.
+
+Use environment variables for: - API URLs - Supabase URLs/keys - email
+providers - SMS providers - OAuth credentials - PostHog - Sentry - other
+integrations
+
+Never commit production secrets.
+
+Expo should support separate development and production
+configurations/builds, e.g.: - LawSphere DEV - LawSphere
+
+------------------------------------------------------------------------
+
+12. Notifications
+
+Support: - in-app notifications - push notifications - email - SMS where
+appropriate - realtime delivery
+
+Notifications must support both single and grouped notifications.
+
+Examples:
+
+Single: “John sent you a connection request.”
+
+Grouped: “John, Sarah and 8 others liked your post.”
+
+Use two conceptual levels.
+
+Raw events
+
+notification_events - id - recipient_id - actor_id - type -
+entity_type - entity_id - created_at
+
+Each individual action creates its own event.
+
+User-facing notifications
+
+notifications - id - recipient_id - type - entity_type - entity_id -
+group_key - actors_count - last_actor_id - read_at - created_at -
+updated_at
+
+Example group key:
+
+post.like:post_123
+
+Suggested aggregation rules:
+
+connection.requested → SINGLE connection.accepted → SINGLE post.liked →
+GROUPED BY POST post.commented → GROUPED BY POST post.shared → GROUPED
+BY POST comment.liked → GROUPED BY COMMENT comment.replied → GROUPED BY
+COMMENT user.followed → GROUPED where appropriate message.received →
+single/conversation based mention.created → SINGLE article.liked →
+GROUPED BY ARTICLE article.commented → GROUPED BY ARTICLE media.liked →
+GROUPED live.started → SINGLE
+
+Also provide:
+
+notification_deliveries notification_preferences device_tokens
+
+notification_deliveries should track channel/status/retries where
+useful.
+
+Do not make preformatted English strings the primary notification state.
+Store structured notification data and generate presentation text from
+type, actors, count, and entity.
+
+------------------------------------------------------------------------
+
+13. Realtime
+
+Initially prefer Supabase Realtime instead of building a custom
+WebSocket infrastructure unnecessarily.
+
+Typical flow:
+
+Expo / Next ↓ REST action NestJS ↓ Supabase DB ↓ Supabase Realtime ↓
+Expo / Next receives change
+
+Example:
+
+Expo → POST /api/v1/messages → NestJS → INSERT messages → Supabase
+Supabase Realtime → recipient Expo/Next → new message
+
+Use realtime for: - chat - notifications - relevant live updates -
+potentially typing/read state if suitable
+
+If LawSphere later requires complex presence, very high-scale rooms, or
+specialized socket behavior, evaluate a NestJS WebSocket Gateway /
+Socket.IO architecture then.
+
+------------------------------------------------------------------------
+
+14. Chat Security
+
+All traffic must use HTTPS/TLS.
+
+Do not invent cryptography.
+
+Standard secure server-readable messaging is acceptable unless product
+requirements explicitly require true end-to-end encryption.
+
+If E2EE becomes a core attorney/client requirement, design it
+intentionally from the beginning of that messaging system because
+retrofitting E2EE later is difficult.
+
+E2EE affects: - multi-device support - key management - account
+recovery - search - moderation - push previews - history sync - group
+chats - key rotation
+
+Never log private message contents.
+
+------------------------------------------------------------------------
+
+15. Cron & Scheduled Tasks
+
+Use scheduled jobs for tasks such as: - inactivity reminders - event
+reminders - daily/weekly email digests - scheduled posts - expired
+temporary-data cleanup - maintenance - periodic statistics where
+required
+
+Example requirement:
+
+If a user has not logged in for 3 days, send an inactivity reminder.
+
+Maintain last_login_at or equivalent reliable activity state.
+
+Prevent the same reminder from being sent every day indefinitely. Track
+reminder state, for example: - last_inactive_reminder_at - reminder
+stage - notification delivery record
+
+Potential lifecycle: - 3 days inactive → reminder - 7 days inactive →
+follow-up - 30 days inactive → re-engagement
+
+Cron should determine WHEN work should run.
+
+For large jobs, Cron should enqueue work rather than directly process
+thousands of emails.
+
+Cron → Queue → Workers → Email provider
+
+------------------------------------------------------------------------
+
+16. Background Jobs / Queues
+
+Introduce queues for asynchronous/retryable/heavy operations such as: -
+bulk email - push delivery - media processing - video processing -
+imports - exports - large notification fan-out - migration processing -
+webhook retries
+
+Design jobs to be retry-safe where possible.
+
+For critical operations consider: - idempotency - retries - dead-letter
+handling - monitoring
+
+Do not add Redis/BullMQ merely for architecture aesthetics. Add
+infrastructure when a real workload requires it.
+
+------------------------------------------------------------------------
+
+17. Logging, Monitoring & Audit
+
+Implement three separate concerns.
+
+Application logs
+
+Log technical backend events: - requests - errors - integration
+failures - cron execution - queue processing - important backend state
+transitions
+
+Start with NestJS Logger if sufficient. Prefer structured JSON
+logging/Pino as operational needs grow.
+
+Error monitoring
+
+Use Sentry or an equivalent service for: - exceptions - stack traces -
+environment - release/version - useful diagnostic context
+
+Audit logs
+
+Persist important security/business actions in the database, for
+example: - email changed - role changed - privacy changed - content
+removed - account suspended - admin action - important moderation action
+
+Never log: - passwords - password hashes - OTP codes - access tokens -
+refresh tokens - service-role keys - OAuth secrets - private message
+bodies - unnecessary sensitive personal information
+
+Use correlation/request IDs when helpful for tracing operations across
+services.
+
+------------------------------------------------------------------------
+
+18. Product Analytics — PostHog
+
+Integrate PostHog intentionally from early in the migration.
+
+Use consistent event naming.
+
+Example events: - user_signed_up - profile_completed -
+connection_requested - connection_accepted - post_created - post_liked -
+comment_created - group_created - group_joined - message_sent -
+event_created
+
+Use PostHog to understand: - funnels - feature adoption - retention -
+user flows - conversion - product usage
+
+Do not confuse analytics with logging.
+
+PostHog = user/product behavior Sentry = application errors Logs =
+technical backend behavior Audit logs = important user/admin actions
+
+Never send passwords, tokens, private messages, OTP codes, or
+unnecessary sensitive legal/private data to PostHog.
+
+Create an analytics event taxonomy/document rather than allowing random
+event names throughout the codebase.
+
+------------------------------------------------------------------------
+
+19. Email / SMS / Push
+
+Build notification delivery behind application services rather than
+coupling domain modules directly to one provider.
+
+Example:
+
+Domain event ↓ NotificationService ↓ Delivery layer ├── In-app ├── Push
+├── Email └── SMS
+
+Support user notification preferences per channel/event type.
+
+DEV and PROD must use separate credentials/configuration.
+
+Email/SMS sending should support retries and delivery status where
+required.
+
+------------------------------------------------------------------------
+
+20. Design System
+
+Before mass page migration, establish shared design tokens.
+
+Example:
+
+packages/design-tokens/ ├── colors.ts ├── spacing.ts ├── radius.ts ├──
+typography.ts ├── shadows.ts └── index.ts
+
+Define reusable base components such as: - Button - Input - TextArea -
+Avatar - Card - Modal - Badge - Tabs - Dropdown - EmptyState - Loading
+state - Error state
+
+Avoid random hard-coded: - hex colors - spacing values - font sizes -
+radii
+
+Tie web CSS variables/Tailwind configuration to design tokens where
+appropriate.
+
+Expo should consume compatible TypeScript tokens.
+
+Document: - responsive breakpoints - hover - active - focus - disabled -
+loading - error - empty states
+
+Determine dark-mode requirements explicitly rather than accidentally
+creating partial dark-mode support.
+
+------------------------------------------------------------------------
+
+21. SEO & GEO
+
+SEO and generative-engine discoverability must be considered during
+Next.js migration, not added as an afterthought.
+
+Implement: - global metadata defaults - unique titles/descriptions -
+correct H1/H2/H3 hierarchy - dynamic metadata - stable clean
+URLs/slugs - canonical URLs - sitemap.xml - robots.txt - Open Graph -
+structured data / JSON-LD - explicit index/noindex rules
+
+Use suitable schema types such as: - Person - Article - Organization -
+Event where appropriate.
+
+Potential public SEO surfaces include: - attorney profiles - law firm
+pages - articles - selected public content - public groups/events where
+product rules allow indexing
+
+For GEO/AI discoverability, clearly expose structured facts such as: -
+author - practice area - jurisdiction/location - publication/update
+date - sources where relevant - entity relationships
+
+Before Bubble cutover: 1. Export/identify important existing public
+Bubble URLs. 2. Preserve equivalent URLs where possible. 3. Add 301
+redirects for changed URLs. 4. Avoid accidentally indexing
+private/user-specific pages. 5. Validate sitemap, canonicals and
+structured data.
+
+Each migrated public page may include an SEO specification:
+
+URL Title Description H1 Index: yes/no Canonical Schema type Legacy
+Bubble URL / redirect
+
+------------------------------------------------------------------------
+
+22. Security
+
+Security must be part of architecture, not an afterthought.
+
+Include: - Supabase Auth - NestJS authorization Guards -
+RBAC/permissions - RLS where appropriate - DTO validation - rate
+limiting - CORS - security headers - secure cookies/token handling where
+applicable - file validation - upload size/type restrictions - webhook
+signature validation - safe secret management - input/output
+validation - SQL injection protection through safe query mechanisms -
+authorization checks for every private resource - privacy/visibility
+rules - block/mute behavior - moderation/reporting - account
+deletion/data export workflows - audit logging
+
+Do not rely on hidden or complicated API URLs for security.
+
+------------------------------------------------------------------------
+
+23. API Standards
+
+Define consistent conventions for: - pagination - filtering - sorting -
+search - errors - HTTP status codes - validation responses -
+timestamps - IDs - optional fields - soft-deleted resources
+
+Use a consistent global error format.
+
+Example conceptual response:
+
+{ "statusCode": 400, "code": "VALIDATION_ERROR", "message": "Invalid
+request", "errors": […] }
+
+Do not leak internal stack traces or sensitive infrastructure details to
+production clients.
+
+------------------------------------------------------------------------
+
+24. Search
+
+Design search as a domain capability rather than embedding ad-hoc
+queries everywhere.
+
+Initially evaluate PostgreSQL/Supabase full-text search for: -
+attorneys - articles - content - groups - organizations
+
+Only introduce an external search engine if actual requirements exceed
+PostgreSQL capabilities.
+
+------------------------------------------------------------------------
+
+25. Files & Media
+
+Use Supabase Storage initially.
+
+Define: - allowed file types - maximum sizes - ownership - access
+rules - public/private buckets - signed URL strategy where appropriate -
+deletion lifecycle - thumbnail/image processing needs - video processing
+requirements
+
+Do not expose privileged storage credentials to clients.
+
+------------------------------------------------------------------------
+
+26. Moderation & Privacy
+
+LawSphere is a social network and requires first-class
+moderation/privacy features.
+
+Plan for: - report user/content/comment/message where appropriate -
+block - mute - content visibility - public/private groups - membership
+approval - admin moderation - suspension/ban - content removal - audit
+trail - privacy settings
+
+Authorization must be enforced on the backend, not only by hiding
+buttons in the UI.
+
+------------------------------------------------------------------------
+
+27. Groups
+
+LawSphere supports lawyer and non-lawyer users.
+
+Group behavior must preserve existing product rules.
+
+A lawyer creating a group may choose Public or Private.
+
+For Public groups: - Lawyers Only - Anyone May Join
+
+For Private groups: - users request membership - group admin
+approves/rejects requests
+
+A non-lawyer creating a Public group may create an Anyone May Join
+group.
+
+Visibility and joining permissions are separate concepts. Model them
+separately if needed rather than encoding everything in one ambiguous
+boolean.
+
+Before implementation, verify exact Bubble behavior from migration
+documentation.
+
+------------------------------------------------------------------------
+
+28. Testing
+
+Add tests strategically.
+
+Prioritize: - authentication - permissions - critical business logic -
+notification aggregation - group access - content visibility -
+migrations - payment/subscription logic if applicable -
+destructive/admin operations
+
+Use: - unit tests for isolated business rules - integration tests for
+DB/API behavior - end-to-end tests for critical user flows
+
+Do not chase meaningless coverage percentages.
+
+------------------------------------------------------------------------
+
+29. CI/CD
+
+Set up a predictable deployment pipeline.
+
+At minimum: - lint - typecheck - tests - build - migration validation -
+deployment
+
+Production database migrations must be deliberate and recoverable.
+
+Do not automatically perform destructive schema changes without
+reviewing their impact.
+
+------------------------------------------------------------------------
+
+30. Reliability / Operations
+
+Plan for: - health checks - database backups - recovery procedures -
+monitoring - error alerting - migration rollback/recovery strategy -
+queue monitoring when queues are introduced - integration/webhook retry
+handling - API request correlation IDs where useful
+
+Add complexity according to real requirements rather than prematurely
+building microservices.
+
+LawSphere should remain a modular monolith initially.
+
+------------------------------------------------------------------------
+
+31. Migration Cutover
+
+Bubble remains production during development.
+
+Because users may continue creating/changing data after the first
+export, the final migration must account for changes between initial
+migration and cutover.
+
+Plan: 1. Analyze Bubble schema. 2. Create migration mapping. 3. Perform
+test imports into DEV. 4. Validate relationships/counts. 5. Run staging
+migration rehearsal. 6. Prepare final migration scripts. 7. Define
+cutover/freeze strategy. 8. Perform final data sync. 9. Validate
+critical data. 10. Switch traffic. 11. Monitor errors and analytics. 12.
+Keep rollback/recovery plan.
+
+Never assume one early CSV export represents the final production
+dataset.
+
+------------------------------------------------------------------------
+
+32. Implementation Principles for the Coding Agent
+
+When working on this repository:
+
+1.  Inspect existing code and migration documentation before changing
+    architecture.
+2.  Do not invent Bubble behavior when evidence exists in
+    screenshots/workflows/data exports.
+3.  Ask for clarification only when a decision materially affects
+    behavior and cannot be inferred safely.
+4.  Prefer simple, maintainable solutions.
+5.  Avoid premature microservices.
+6.  Keep NestJS as a modular monolith initially.
+7.  Keep business logic out of Next.js/Expo UI components.
+8.  Reuse shared types, validation and API contracts.
+9.  Do not duplicate web/mobile business rules.
+10. Validate all external input.
+11. Enforce permissions server-side.
+12. Never commit secrets.
+13. Never log secrets/private message bodies.
+14. Use database migrations for schema changes.
+15. Add indexes based on actual query patterns.
+16. Use transactions for multi-step operations that must remain
+    consistent.
+17. Use queues for heavy/retryable asynchronous work.
+18. Use Cron only to trigger scheduled work; enqueue large workloads.
+19. Keep PostHog event naming consistent.
+20. Preserve SEO-critical Bubble URLs or create 301 redirects.
+21. Keep MIGRATION.md updated.
+22. Complete and verify one vertical slice before blindly migrating
+    dozens of pages.
+23. Do not introduce GraphQL, Redis, microservices, custom WebSockets,
+    or other infrastructure unless there is a concrete requirement.
+24. Keep code production-oriented but avoid unnecessary abstraction.
+
+------------------------------------------------------------------------
+
+33. Initial Execution Plan
+
+Start by inspecting the repository and migration materials.
+
+Then produce a short implementation plan before making large changes.
+
+Recommended initial sequence:
+
+Phase 1 — Foundation - initialize/verify monorepo - configure
+pnpm/Turborepo - create Next.js app - create Expo app - create NestJS
+app - create shared packages - configure TypeScript/lint/formatting -
+define environment strategy - configure DEV Supabase - configure NestJS
+global validation - configure /api/v1 - configure CORS - configure
+Swagger - configure logging - add health endpoint
+
+Phase 2 — Identity - Supabase Auth - profiles - roles/permissions -
+email verification - SMS verification if required - Google auth - Apple
+auth - password reset - session handling
+
+Phase 3 — Core social foundation - profiles - connections - content
+model - comments - reactions - feed
+
+Phase 4 — Social features - groups - events - organizations/law firms -
+products/content relationships - search
+
+Phase 5 — Communication - messages - Supabase Realtime - notifications -
+notification preferences - push/email/SMS delivery
+
+Phase 6 — Operations - Cron - queues where required - PostHog - Sentry -
+audit logs - moderation/admin - backups/monitoring
+
+Phase 7 — Web discoverability - SEO metadata - JSON-LD - sitemap -
+robots - canonical URLs - legacy URL redirects - GEO-friendly public
+content structure
+
+Phase 8 — Migration/cutover - migration scripts - data verification -
+staging rehearsal - final Bubble sync - production cutover - monitoring
+
+------------------------------------------------------------------------
+
+34. Definition of Done for Each Migrated Feature
+
+A feature is not considered migrated merely because its UI exists.
+
+For every feature verify:
+
+-   database schema/migration complete
+-   relationships/constraints correct
+-   NestJS API complete
+-   authorization enforced
+-   DTO validation complete
+-   Swagger updated
+-   Next.js behavior complete
+-   Expo behavior complete where applicable
+-   loading/error/empty states implemented
+-   realtime behavior implemented if needed
+-   notifications implemented if needed
+-   PostHog events added if meaningful
+-   logging/error handling added
+-   tests for critical logic
+-   Bubble behavior compared
+-   SEO handled for public pages
+-   migration checklist updated
+
+------------------------------------------------------------------------
+
+35. Important Architectural Rule
+
+Always optimize for this:
+
+One product → one shared backend → one source of business truth → two
+clients (Next.js + Expo) → one PostgreSQL/Supabase data model
+
+The goal is not to reproduce Bubble’s internal architecture. The goal is
+to preserve LawSphere’s product behavior while rebuilding it as a clean,
+secure, maintainable, scalable TypeScript application.

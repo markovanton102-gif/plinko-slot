@@ -1,0 +1,2 @@
+-- Local development seed data only. Never include production data or real
+-- user information here. Run automatically by `supabase db reset` locally.
